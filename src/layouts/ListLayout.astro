@@ -1,0 +1,14 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import PostCard from '../components/PostCard.astro';
+const { title, description, posts = [] } = Astro.props;
+---
+<BaseLayout title={`${title} — Versocracia`} description={description}>
+  <section class="mx-auto max-w-6xl px-4 py-10">
+    <h1 class="font-serif text-3xl text-tinta">{title}</h1>
+    <p class="mt-2 max-w-2xl">{description}</p>
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+      {posts.map((p) => <PostCard post={p} />)}
+    </div>
+  </section>
+</BaseLayout>

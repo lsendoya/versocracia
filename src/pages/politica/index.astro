@@ -1,0 +1,19 @@
+---
+import ListLayout from '../../layouts/ListLayout.astro';
+import { getPostsByCategory } from '../../lib/content';
+import { paginate } from '../../lib/pagination';
+
+const all = await getPostsByCategory('politica');
+const pageSize = 9;
+const makePage = paginate(all, pageSize);
+const page = Number(Astro.url.searchParams.get('page') || '1');
+const { items, pages } = makePage(page);
+---
+<ListLayout title="Política" description="Coyuntura con contexto y argumentos." posts={items} />
+
+<!-- Paginación simple -->
+<nav class="mx-auto max-w-6xl px-4 pb-12 flex gap-2">
+  {Array.from({ length: pages }, (_, i) => i + 1).map((p) => (
+    <a class={`px-3 py-1 rounded ${p === page ? 'bg-carmin text-white' : 'border'}`} href={`?page=${p}`}>{p}</a>
+  ))}
+</nav>

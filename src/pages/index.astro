@@ -1,0 +1,36 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getAllPosts, getPostsByCategory } from '../lib/content';
+import PostCard from '../components/PostCard.astro';
+
+const latest = (await getAllPosts()).slice(0, 6);
+const politica = (await getPostsByCategory('politica')).slice(0, 3);
+const crecimiento = (await getPostsByCategory('crecimiento')).slice(0, 3);
+const literatura = (await getPostsByCategory('literatura')).slice(0, 3);
+---
+<BaseLayout>
+  <section class="mx-auto max-w-6xl px-4 py-12">
+    <h1 class="font-serif text-4xl text-tinta">Versocracia</h1>
+    <p class="mt-2 max-w-2xl">Un blog de política, crecimiento personal y literatura. Rigor sin gritos; belleza al servicio de la idea.</p>
+
+    <h2 class="mt-8 font-serif text-2xl text-tinta">Últimos artículos</h2>
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
+      {latest.map((p) => <PostCard post={p} />)}
+    </div>
+
+    <div class="grid lg:grid-cols-3 gap-10 mt-12">
+      <div>
+        <h3 class="font-serif text-xl text-tinta">Política</h3>
+        {politica.map((p) => <PostCard post={p} />)}
+      </div>
+      <div>
+        <h3 class="font-serif text-xl text-tinta">Crecimiento personal</h3>
+        {crecimiento.map((p) => <PostCard post={p} />)}
+      </div>
+      <div>
+        <h3 class="font-serif text-xl text-tinta">Literatura</h3>
+        {literatura.map((p) => <PostCard post={p} />)}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
