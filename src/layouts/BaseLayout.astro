@@ -1,12 +1,20 @@
 ---
-import Nav from '../components/Nav.astro';
-import Footer from '../components/Footer.astro';
-import Seo from '../components/Seo.astro';
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+import Seo from "../components/Seo.astro";
+import "../styles/global.css";
 
-const { title = 'Versocracia', description = 'La república del argumento', ogImage = '/og-default.jpg' } = Astro.props;
+const {
+  title = "Versocracia",
+  description = "La república del argumento",
+  ogImage = "/og-default.jpg",
+} = Astro.props;
 ---
+
 <html lang="es">
   <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <Seo title={title} description={description} image={ogImage} />
   </head>
   <body class="bg-marfil text-pizarra font-sans">

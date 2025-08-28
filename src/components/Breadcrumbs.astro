@@ -1,0 +1,28 @@
+---
+/**
+ * Props: items: Array<{ label: string; href?: string }>
+ * El último item se considera la página actual y no lleva enlace.
+ */
+const { items = [] } = Astro.props;
+---
+
+<nav aria-label="breadcrumbs" class="text-tinta mb-4 text-sm">
+  <ol class="flex flex-wrap items-center gap-2">
+    {
+      items.map((item, i) => (
+        <li class="flex items-center gap-2">
+          {i > 0 && <span class="text-carmin">›</span>}
+          {i < items.length - 1 ? (
+            <a href={item.href ?? "#"} class="hover:border-carmin border-b border-transparent">
+              {item.label}
+            </a>
+          ) : (
+            <span aria-current="page" class="text-pizarra/70">
+              {item.label}
+            </span>
+          )}
+        </li>
+      ))
+    }
+  </ol>
+</nav>

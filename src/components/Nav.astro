@@ -6,54 +6,55 @@ const links = [
   { href: "/politica", label: "Política" },
   { href: "/crecimiento", label: "Crecimiento" },
   { href: "/literatura", label: "Literatura" },
-  // { href: "/sobre-mi", label: "Sobre mí" }, // opcional
 ];
 
-const isActive = (href: string) =>
-  pathname === href || pathname.startsWith(href + "/");
+const isActive = (href: string) => pathname === href || pathname.startsWith(href + "/");
 ---
 
 <header class="border-b bg-white/80 backdrop-blur">
-  <div class="mx-auto max-w-6xl px-4 h-16 flex items-center justify-between">
-    <a href="/" class="font-bold text-xl tracking-tight text-[#0D1321]">
-      Versocracia
-    </a>
+  <div class="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
+    <a href="/" class="text-xl font-bold tracking-tight text-[#0D1321]"> Versocracia </a>
 
     <!-- Desktop -->
     <nav class="hidden md:block">
       <ul class="flex items-center gap-6">
-        {links.map((l) => (
-          <li>
-            <a
-              href={l.href}
-              class={`text-sm font-medium transition hover:opacity-80
-                ${isActive(l.href)
-                  ? "text-[#C1121F] underline decoration-2 underline-offset-8"
-                  : "text-slate-700"}`}
-              aria-current={isActive(l.href) ? "page" : undefined}
-            >
-              {l.label}
-            </a>
-          </li>
-        ))}
+        {
+          links.map((l) => (
+            <li>
+              <a
+                href={l.href}
+                class={`text-sm font-medium transition hover:opacity-80 ${
+                  isActive(l.href)
+                    ? "text-[#C1121F] underline decoration-2 underline-offset-8"
+                    : "text-slate-700"
+                }`}
+                aria-current={isActive(l.href) ? "page" : undefined}
+              >
+                {l.label}
+              </a>
+            </li>
+          ))
+        }
       </ul>
     </nav>
 
     <!-- Mobile -->
     <details class="md:hidden">
-      <summary class="cursor-pointer select-none text-xl leading-none">☰</summary>
+      <summary class="cursor-pointer text-xl leading-none select-none">☰</summary>
       <ul class="mt-2 border-t pt-2">
-        {links.map((l) => (
-          <li class="py-1">
-            <a
-              href={l.href}
-              class={`block py-1 text-base ${isActive(l.href) ? "text-[#C1121F]" : "text-slate-700"}`}
-              aria-current={isActive(l.href) ? "page" : undefined}
-            >
-              {l.label}
-            </a>
-          </li>
-        ))}
+        {
+          links.map((l) => (
+            <li class="py-1">
+              <a
+                href={l.href}
+                class={`block py-1 text-base ${isActive(l.href) ? "text-[#C1121F]" : "text-slate-700"}`}
+                aria-current={isActive(l.href) ? "page" : undefined}
+              >
+                {l.label}
+              </a>
+            </li>
+          ))
+        }
       </ul>
     </details>
   </div>

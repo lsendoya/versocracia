@@ -5,7 +5,7 @@ import PostLayout from "../../layouts/PostLayout.astro";
 const { slug } = Astro.params;
 const entries = await getCollection(
   "posts",
-  (p) => !p.data.draft && p.slug === slug && p.data.category === "politica"
+  (p) => !p.data.draft && p.slug === slug && p.data.category === "crecimiento"
 );
 if (entries.length === 0) throw new Error("Post no encontrado");
 const post = entries[0];

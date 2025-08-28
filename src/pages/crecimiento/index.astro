@@ -1,0 +1,43 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PostCard from "../../components/PostCard.astro";
+import Breadcrumbs from "../../components/Breadcrumbs.astro";
+import Pagination from "../../components/Pagination.astro";
+import { getPostsByCategory } from "../../lib/content";
+import { paginate } from "../../lib/pagination";
+
+const all = await getPostsByCategory("crecimiento");
+const pageSize = 9;
+const page = Number(Astro.url.searchParams.get("page") || 1);
+const { items, pages } = paginate(all, pageSize)(page);
+const baseUrl = "/crecimiento/";
+---
+
+<BaseLayout
+  title="Crecimiento personal — Versocracia"
+  description="Disciplina intelectual y hábitos para una vida cívica más lúcida."
+>
+  <section class="mx-auto max-w-6xl px-4 py-10">
+    <Breadcrumbs items={[{ href: "/", label: "Inicio" }, { label: "Crecimiento personal" }]} />
+    <h1 class="text-tinta font-serif text-3xl">Crecimiento personal</h1>
+    <p class="text-pizarra/90 mt-2">
+      Disciplina intelectual y hábitos para una vida cívica más lúcida.
+    </p>
+
+    {
+      items.length === 0 ? (
+        <p class="text-pizarra/80 mt-6 rounded-xl border border-dashed border-black/10 bg-white p-4">
+          Aún no hay artículos en esta sección.
+        </p>
+      ) : (
+        <div class="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {items.map((p) => (
+            <PostCard post={p} />
+          ))}
+        </div>
+      )
+    }
+
+    <Pagination current={page} totalPages={pages} baseUrl={baseUrl} />
+  </section>
+</BaseLayout>

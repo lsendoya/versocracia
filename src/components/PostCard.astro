@@ -1,14 +1,26 @@
 ---
-import formatDate from '../lib/formatDate';
-const { post } = Astro.props; // { id, slug, data }
-const { data } = post;
+import formatDate from "../lib/formatDate";
+// Props: { post } donde post es una entrada de astro:content (CollectionEntry<'posts'>)
+const { post } = Astro.props;
+const data = post?.data ?? {};
 const href = `/${data.category}/${post.slug}/`;
 ---
-<article class="bg-white rounded-2xl p-5 shadow ring-1 ring-black/5">
-  <a href={href} class="block">
-    <p class="text-xs text-oliva uppercase">{data.category}</p>
-    <h3 class="mt-1 font-semibold text-tinta">{data.title}</h3>
-    <p class="mt-2 text-sm line-clamp-3">{data.description}</p>
-    <p class="mt-3 text-xs text-pizarra/70">{formatDate(data.date)}</p>
+
+<article class="rounded-2xl bg-white p-5 shadow ring-1 ring-black/5 transition hover:shadow-lg">
+  <a href={href} class="block text-inherit no-underline">
+    {
+      data.cover && (
+        <img
+          src={data.cover}
+          alt={data.title}
+          loading="lazy"
+          class="mb-3 h-40 w-full rounded-xl object-cover"
+        />
+      )
+    }
+    <p class="text-oliva text-xs tracking-wide uppercase">{data.category}</p>
+    <h3 class="text-tinta mt-1 leading-snug font-semibold">{data.title}</h3>
+    <p class="text-pizarra/90 mt-2 text-sm">{data.description}</p>
+    <p class="text-pizarra/70 mt-3 text-xs">{formatDate(data.date)}</p>
   </a>
 </article>

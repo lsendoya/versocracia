@@ -1,2 +1,7 @@
 @import "tailwindcss";
 
+/* Tus estilos extra */
+:root {
+  --brand-text: #0d1321;
+  --brand-accent: #c1121f;
+}

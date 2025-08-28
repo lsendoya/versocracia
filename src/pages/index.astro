@@ -1,36 +1,109 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import { getAllPosts, getPostsByCategory } from '../lib/content';
-import PostCard from '../components/PostCard.astro';
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PostCard from "../components/PostCard.astro";
+import NewsletterSignup from "../components/NewsletterSignup.astro";
+import { getAllPosts, getPostsByCategory } from "../lib/content";
 
-const latest = (await getAllPosts()).slice(0, 6);
-const politica = (await getPostsByCategory('politica')).slice(0, 3);
-const crecimiento = (await getPostsByCategory('crecimiento')).slice(0, 3);
-const literatura = (await getPostsByCategory('literatura')).slice(0, 3);
+const latestAll = await getAllPosts();
+const latest = latestAll.slice(0, 6);
+const featured = latest[0];
+const latestGrid = featured ? latest.slice(1) : latest;
+
+const politica = (await getPostsByCategory("politica")).slice(0, 3);
+const crecimiento = (await getPostsByCategory("crecimiento")).slice(0, 3);
+const literatura = (await getPostsByCategory("literatura")).slice(0, 3);
 ---
-<BaseLayout>
-  <section class="mx-auto max-w-6xl px-4 py-12">
-    <h1 class="font-serif text-4xl text-tinta">Versocracia</h1>
-    <p class="mt-2 max-w-2xl">Un blog de política, crecimiento personal y literatura. Rigor sin gritos; belleza al servicio de la idea.</p>
 
-    <h2 class="mt-8 font-serif text-2xl text-tinta">Últimos artículos</h2>
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
-      {latest.map((p) => <PostCard post={p} />)}
+<BaseLayout
+  title="Versocracia — La república del argumento"
+  description="Un blog de política, crecimiento personal y literatura. Rigor sin gritos; belleza al servicio de la idea."
+>
+  {/* Hero */}
+  <section class="mx-auto grid max-w-6xl items-start gap-8 px-4 pt-10 pb-6 lg:grid-cols-2">
+    <div>
+      <h1 class="text-tinta font-serif text-4xl leading-tight md:text-5xl">Versocracia</h1>
+      <p class="text-pizarra/90 mt-3 max-w-xl text-lg">
+        Un blog de política, crecimiento personal y literatura. Rigor sin gritos; belleza al
+        servicio de la idea.
+      </p>
+      <div class="mt-6 flex flex-wrap gap-3">
+        <a
+          href="/politica/"
+          class="bg-tinta text-marfil rounded-2xl px-5 py-3 shadow hover:shadow-lg">Política</a
+        >
+        <a
+          href="/crecimiento/"
+          class="border-tinta hover:bg-tinta hover:text-marfil rounded-2xl border px-5 py-3"
+          >Crecimiento</a
+        >
+        <a
+          href="/literatura/"
+          class="border-tinta hover:bg-tinta hover:text-marfil rounded-2xl border px-5 py-3"
+          >Literatura</a
+        >
+      </div>
+      <p class="text-oliva mt-4 text-sm">Firme con las ideas, suave con las personas.</p>
     </div>
 
-    <div class="grid lg:grid-cols-3 gap-10 mt-12">
-      <div>
-        <h3 class="font-serif text-xl text-tinta">Política</h3>
-        {politica.map((p) => <PostCard post={p} />)}
-      </div>
-      <div>
-        <h3 class="font-serif text-xl text-tinta">Crecimiento personal</h3>
-        {crecimiento.map((p) => <PostCard post={p} />)}
-      </div>
-      <div>
-        <h3 class="font-serif text-xl text-tinta">Literatura</h3>
-        {literatura.map((p) => <PostCard post={p} />)}
-      </div>
-    </div>
+    {
+      featured && (
+        <aside class="rounded-2xl bg-white p-5 shadow ring-1 ring-black/5">
+          <div class="text-oliva mb-2 text-xs tracking-wide uppercase">Artículo destacado</div>
+          <PostCard post={featured} />
+          <div class="mt-3 text-right">
+            <a href={`/${featured.data.category}/${featured.slug}/`} class="text-sm underline">
+              Leer ahora →
+            </a>
+          </div>
+        </aside>
+      )
+    }
   </section>
-</BaseLayout>
+
+  {/* Últimos artículos */}
+  <section class="mx-auto max-w-6xl px-4 py-8">
+    <h2 class="text-tinta font-serif text-2xl">Últimos artículos</h2>
+    {
+      latestGrid.length === 0 ? (
+        <p class="text-pizarra/80 mt-4">Pronto habrá contenido nuevo.</p>
+      ) : (
+        <div class="mt-4 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {latestGrid.map((p) => (
+            <PostCard post={p} />
+          ))}
+        </div>
+      )
+    }
+  </section>
+
+  {/* Bloques por sección */}
+  <section class="mx-auto grid max-w-6xl gap-10 px-4 py-10 lg:grid-cols-3">
+    <div>
+      <div class="flex items-end justify-between">
+        <h3 class="text-tinta font-serif text-xl">Política</h3>
+        <a href="/politica/" class="hover:border-carmin border-b border-transparent text-sm"
+          >Ver todo</a
+        >
+      </div>
+      {
+        politica.length === 0 ? (
+          <p class="text-pizarra/80 mt-4">Sin artículos aún.</p>
+        ) : (
+          <div class="mt-4 space-y-4">
+            {politica.map((p) => (
+              <PostCard post={p} />
+            ))}
+          </div>
+        )
+      }
+    </div>
+
+    <div>
+      <div class="flex items-end justify-between">
+        <h3 class="text-tinta font-serif text-xl">Crecimiento personal</h3>
+        <a href="/crecimiento/" class="hover:border-carmin border-b border-transparent text-sm"
+          >Ver todo</a>
+      </div>
+    </div>
+  </section></BaseLayout
+>
